@@ -1,4 +1,5 @@
 # psn-collaborative-filtering
+2000ユーザ，4803ゲーム
 [mmilkkr](https://psnprofiles.com/mmilkkr)のおすすめゲーム
 
 | ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |

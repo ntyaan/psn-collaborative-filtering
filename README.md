@@ -1,5 +1,6 @@
 # psn-collaborative-filtering
 [mmilkkr](https://psnprofiles.com/mmilkkr)のおすすめゲーム
+
 | ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |
 |:---|:---|:----|:---|:----|:---|:---|
 |**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|
@@ -58,6 +59,7 @@
 |**54**| 23.9|3|63|(ps4)| ![planetside-2](https://i.psnprofiles.com/games/f4413b/S2fcdec.png)|[planetside-2](https://psnprofiles.com/trophies/3643-planetside-2)|
 
 [mmilkkr](https://psnprofiles.com/mmilkkr)に似たユーザ一覧
+
 | ranking | ユーザ名 | 類似度 | 
 |:---|:---|:----|
 |**1**|[KorvenDalas](https://psnprofiles.com/KorvenDalas)|1|

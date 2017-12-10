@@ -1,5 +1,5 @@
 # psn-collaborative-filtering
-
+[mmilkkr](https://psnprofiles.com/mmilkkr)のおすすめゲーム
 | ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |
 |:---|:---|:----|:---|:----|:---|:---|
 |**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|
@@ -56,6 +56,8 @@
 |**52**| 28.4072|3|132|(ps4)| ![dc-universe-online](https://i.psnprofiles.com/games/a50e1f/S223bfb.png)|[dc-universe-online](https://psnprofiles.com/trophies/2259-dc-universe-online)|
 |**53**| 25.799|2|89|(ps4)| ![secret-ponchos](https://i.psnprofiles.com/games/5e54fd/Se619da.png)|[secret-ponchos](https://psnprofiles.com/trophies/3209-secret-ponchos)|
 |**54**| 23.9|3|63|(ps4)| ![planetside-2](https://i.psnprofiles.com/games/f4413b/S2fcdec.png)|[planetside-2](https://psnprofiles.com/trophies/3643-planetside-2)|
+
+[mmilkkr](https://psnprofiles.com/mmilkkr)に似たユーザ一覧
 | ranking | ユーザ名 | 類似度 | 
 |:---|:---|:----|
 |**1**|[KorvenDalas](https://psnprofiles.com/KorvenDalas)|1|

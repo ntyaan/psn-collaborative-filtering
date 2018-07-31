@@ -33,7 +33,7 @@ ps3でゲームをしないのでプラットフォームがps3のみのゲー�
 |**8**| 65.4886|40|43|(ps4)| ![adventure-capitalist](https://i.psnprofiles.com/games/84235d/S5350b0.png)|[adventure-capitalist](https://psnprofiles.com/trophies/5181-adventure-capitalist)|
 |**9**| 64.4804|35|137|(ps4, ps3, vita)| ![teslagrad](https://i.psnprofiles.com/games/7e9125/S0de3be.png)|[teslagrad](https://psnprofiles.com/trophies/3178-teslagrad)|
 |**10**| 62.3582|39|159|(ps4)| ![final-fantasy-type-0-hd](https://i.psnprofiles.com/games/77c651/S96fd71.png)|[final-fantasy-type-0-hd](https://psnprofiles.com/trophies/3416-final-fantasy-type-0-hd)|
-->
+-->
 
 ## スクレイピング
 

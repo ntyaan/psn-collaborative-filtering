@@ -19,7 +19,13 @@ PSN非公式サイト([https://psnprofiles.com](https://psnprofiles.com/))から
 僕の[アカウント](https://psnprofiles.com/mmilkkr)を対象のユーザとし，プレイ済みのゲームもあえて表示します．
 予測値は実際自分がこのゲームをプレイしていたと仮定したときのトロフィー取得率と考えます．
 この予測値が高い順に，予測値と平均取得率の差が20以上で，2000人中30人以上にプレイされたゲームを並べました\
+<<<<<<< HEAD
 ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．
+=======
+ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．-->
+
+<!--
+>>>>>>> refs/remotes/origin/master
 | ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |
 |:---|:---|:----|:---|:----|:---|:---|
 |**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|
@@ -34,8 +40,7 @@ ps3でゲームをしないのでプラットフォームがps3のみのゲー�
 |**10**| 62.3582|39|159|(ps4)| ![final-fantasy-type-0-hd](https://i.psnprofiles.com/games/77c651/S96fd71.png)|[final-fantasy-type-0-hd](https://psnprofiles.com/trophies/3416-final-fantasy-type-0-hd)|
 2位，5位，6位，9位，10位は既にプレイしたことあり，偶然にも全てトロコンしているのでそれっぽい結果(?)な気がします．
 それ以外のゲームはあまり...~~バスケゲームとか興味ねぇ~~
-強調フィルタリングは[serendipitous](https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%94%E3%83%86%E3%82%A3)らしいので予想外のものが推薦されて興味深いです．
--- >
+強調フィルタリングは[serendipitous](https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%94%E3%83%86%E3%82%A3)らしいので予想外のものが推薦されて興味深いです．-->
 
 ## スクレイピング
 
@@ -288,7 +293,7 @@ double Recom::user_average(int index){
 }
 ```
 
-###コード
+### コード
 C++行列ライブラリであるEigen3の疎行列クラスを練習兼ねて使いました．
 
 - [recom.h](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/recom.h)

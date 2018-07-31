@@ -14,27 +14,29 @@ PSN非公式サイト([https://psnprofiles.com](https://psnprofiles.com/))から
 
 今回は自分の情報以外にユーザのサイトをクロールして2000人の情報をスクレイピングしました．
 
-[](過程が長くなるので先に結果のtop10を出しておきます．\
-僕の[アカウント](https://psnprofiles.com/mmilkkr)を対象のユーザとし，プレイ済みのゲームもあえて表示します．\
-予測値は実際自分がこのゲームをプレイしていたと仮定したときのトロフィー取得率と考えます．\
+<!--
+過程が長くなるので先に結果のtop10を出しておきます．
+僕の[アカウント](https://psnprofiles.com/mmilkkr)を対象のユーザとし，プレイ済みのゲームもあえて表示します．
+予測値は実際自分がこのゲームをプレイしていたと仮定したときのトロフィー取得率と考えます．
 この予測値が高い順に，予測値と平均取得率の差が20以上で，2000人中30人以上にプレイされたゲームを並べました\
-ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．\
-| ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |\
-|:---|:---|:----|:---|:----|:---|:---|\
-|**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|\
-|**2**| 82.4907|16|227|(ps4, ps3, vita)| ![the-swapper](https://i.psnprofiles.com/games/2623d7/Se7d099.png)|[the-swapper](https://psnprofiles.com/trophies/2667-the-swapper)|\
-|**3**| 75.8524|49|34|(ps4)| ![riptide-gp2](https://i.psnprofiles.com/games/c58521/S3cf88e.png)|[riptide-gp2](https://psnprofiles.com/trophies/3639-riptide-gp2)|\
-|**4**| 75.375|55|51|(ps4)| ![monopoly-plus](https://i.psnprofiles.com/games/e54d9b/S7d9b9c.png)|[monopoly-plus](https://psnprofiles.com/trophies/3211-monopoly-plus)|\
-|**5**| 74.1724|50|156|(ps4)| ![child-of-light](https://i.psnprofiles.com/games/8e2ab8/S276fb5.png)|[child-of-light](https://psnprofiles.com/trophies/2578-child-of-light)|\
-|**6**| 73.5575|51|305|(ps4)| ![life-is-strange](https://i.psnprofiles.com/games/ed93d6/S1628ef.png)|[life-is-strange](https://psnprofiles.com/trophies/3313-life-is-strange)|\
-|**7**| 65.684|38|45|(ps4)| ![kitten-squad](https://i.psnprofiles.com/games/31ff91/Sfb6049.png)|[kitten-squad](https://psnprofiles.com/trophies/3864-kitten-squad)|\
-|**8**| 65.4886|40|43|(ps4)| ![adventure-capitalist](https://i.psnprofiles.com/games/84235d/S5350b0.png)|[adventure-capitalist](https://psnprofiles.com/trophies/5181-adventure-capitalist)|\
-|**9**| 64.4804|35|137|(ps4, ps3, vita)| ![teslagrad](https://i.psnprofiles.com/games/7e9125/S0de3be.png)|[teslagrad](https://psnprofiles.com/trophies/3178-teslagrad)|\
-|**10**| 62.3582|39|159|(ps4)| ![final-fantasy-type-0-hd](https://i.psnprofiles.com/games/77c651/S96fd71.png)|[final-fantasy-type-0-hd](https://psnprofiles.com/trophies/3416-final-fantasy-type-0-hd)|\
-2位，5位，6位，9位，10位は既にプレイしたことあり，偶然にも全てトロコンしているのでそれっぽい結果(?)な気がします．\
-それ以外のゲームはあまり...~~バスケゲームとか興味ねぇ~~\
-強調フィルタリングは[serendipitous](https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%94%E3%83%86%E3%82%A3)らしいので予想外のものが推薦されて興味深いです．\
-)
+ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．
+
+| ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |
+|:---|:---|:----|:---|:----|:---|:---|
+|**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|
+|**2**| 82.4907|16|227|(ps4, ps3, vita)| ![the-swapper](https://i.psnprofiles.com/games/2623d7/Se7d099.png)|[the-swapper](https://psnprofiles.com/trophies/2667-the-swapper)|
+|**3**| 75.8524|49|34|(ps4)| ![riptide-gp2](https://i.psnprofiles.com/games/c58521/S3cf88e.png)|[riptide-gp2](https://psnprofiles.com/trophies/3639-riptide-gp2)|
+|**4**| 75.375|55|51|(ps4)| ![monopoly-plus](https://i.psnprofiles.com/games/e54d9b/S7d9b9c.png)|[monopoly-plus](https://psnprofiles.com/trophies/3211-monopoly-plus)|
+|**5**| 74.1724|50|156|(ps4)| ![child-of-light](https://i.psnprofiles.com/games/8e2ab8/S276fb5.png)|[child-of-light](https://psnprofiles.com/trophies/2578-child-of-light)|
+|**6**| 73.5575|51|305|(ps4)| ![life-is-strange](https://i.psnprofiles.com/games/ed93d6/S1628ef.png)|[life-is-strange](https://psnprofiles.com/trophies/3313-life-is-strange)|
+|**7**| 65.684|38|45|(ps4)| ![kitten-squad](https://i.psnprofiles.com/games/31ff91/Sfb6049.png)|[kitten-squad](https://psnprofiles.com/trophies/3864-kitten-squad)|
+|**8**| 65.4886|40|43|(ps4)| ![adventure-capitalist](https://i.psnprofiles.com/games/84235d/S5350b0.png)|[adventure-capitalist](https://psnprofiles.com/trophies/5181-adventure-capitalist)|
+|**9**| 64.4804|35|137|(ps4, ps3, vita)| ![teslagrad](https://i.psnprofiles.com/games/7e9125/S0de3be.png)|[teslagrad](https://psnprofiles.com/trophies/3178-teslagrad)|
+|**10**| 62.3582|39|159|(ps4)| ![final-fantasy-type-0-hd](https://i.psnprofiles.com/games/77c651/S96fd71.png)|[final-fantasy-type-0-hd](https://psnprofiles.com/trophies/3416-final-fantasy-type-0-hd)|
+2位，5位，6位，9位，10位は既にプレイしたことあり，偶然にも全てトロコンしているのでそれっぽい結果(?)な気がします．
+それ以外のゲームはあまり...~~バスケゲームとか興味ねぇ~~
+強調フィルタリングは[serendipitous](https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%94%E3%83%86%E3%82%A3)らしいので予想外のものが推薦されて興味深いです．
+-- >
 
 ## スクレイピング
 

@@ -1,5 +1,316 @@
 # psn-collaborative-filtering
-2000ユーザ，4803ゲーム
+
+## Qiitaから移し
+
+## 目標
+
+ゲームの実績やトロフィーはプレイしたことがあるかどうかやどの程度プレイしたのかの指標となり，これらを使って推薦システムっぽいものを作れないかとずっと思っていました．
+
+今回はプレイステーションのゲームを対象とします．
+
+PSN非公式サイト([https://psnprofiles.com](https://psnprofiles.com/))から登録されたゲーム情報とトロフィー取得情報をユーザごとにスクレイピングし，強調フィルタリングで自分にとってのおすすめのゲームを表示することが目標です．
+
+ちなみこのサイト一回登録されると自分のゲームプレイ情報が晒されることになるので注意が必要です．
+
+今回は自分の情報以外にユーザのサイトをクロールして2000人の情報をスクレイピングしました．
+
+[](過程が長くなるので先に結果のtop10を出しておきます．\
+僕の[アカウント](https://psnprofiles.com/mmilkkr)を対象のユーザとし，プレイ済みのゲームもあえて表示します．\
+予測値は実際自分がこのゲームをプレイしていたと仮定したときのトロフィー取得率と考えます．\
+この予測値が高い順に，予測値と平均取得率の差が20以上で，2000人中30人以上にプレイされたゲームを並べました\
+ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．\
+| ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |\
+|:---|:---|:----|:---|:----|:---|:---|\
+|**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|\
+|**2**| 82.4907|16|227|(ps4, ps3, vita)| ![the-swapper](https://i.psnprofiles.com/games/2623d7/Se7d099.png)|[the-swapper](https://psnprofiles.com/trophies/2667-the-swapper)|\
+|**3**| 75.8524|49|34|(ps4)| ![riptide-gp2](https://i.psnprofiles.com/games/c58521/S3cf88e.png)|[riptide-gp2](https://psnprofiles.com/trophies/3639-riptide-gp2)|\
+|**4**| 75.375|55|51|(ps4)| ![monopoly-plus](https://i.psnprofiles.com/games/e54d9b/S7d9b9c.png)|[monopoly-plus](https://psnprofiles.com/trophies/3211-monopoly-plus)|\
+|**5**| 74.1724|50|156|(ps4)| ![child-of-light](https://i.psnprofiles.com/games/8e2ab8/S276fb5.png)|[child-of-light](https://psnprofiles.com/trophies/2578-child-of-light)|\
+|**6**| 73.5575|51|305|(ps4)| ![life-is-strange](https://i.psnprofiles.com/games/ed93d6/S1628ef.png)|[life-is-strange](https://psnprofiles.com/trophies/3313-life-is-strange)|\
+|**7**| 65.684|38|45|(ps4)| ![kitten-squad](https://i.psnprofiles.com/games/31ff91/Sfb6049.png)|[kitten-squad](https://psnprofiles.com/trophies/3864-kitten-squad)|\
+|**8**| 65.4886|40|43|(ps4)| ![adventure-capitalist](https://i.psnprofiles.com/games/84235d/S5350b0.png)|[adventure-capitalist](https://psnprofiles.com/trophies/5181-adventure-capitalist)|\
+|**9**| 64.4804|35|137|(ps4, ps3, vita)| ![teslagrad](https://i.psnprofiles.com/games/7e9125/S0de3be.png)|[teslagrad](https://psnprofiles.com/trophies/3178-teslagrad)|\
+|**10**| 62.3582|39|159|(ps4)| ![final-fantasy-type-0-hd](https://i.psnprofiles.com/games/77c651/S96fd71.png)|[final-fantasy-type-0-hd](https://psnprofiles.com/trophies/3416-final-fantasy-type-0-hd)|\
+2位，5位，6位，9位，10位は既にプレイしたことあり，偶然にも全てトロコンしているのでそれっぽい結果(?)な気がします．\
+それ以外のゲームはあまり...~~バスケゲームとか興味ねぇ~~\
+強調フィルタリングは[serendipitous](https://ja.wikipedia.org/wiki/%E3%82%BB%E3%83%AC%E3%83%B3%E3%83%87%E3%82%A3%E3%83%94%E3%83%86%E3%82%A3)らしいので予想外のものが推薦されて興味深いです．\
+)
+
+## スクレイピング
+
+[https://psnprofiles.com](https://psnprofiles.com/)のユーザページはjavascriptが効いていてページの最下部までスクロールする必要があります．
+
+そこでseleniumとPhantomJSを使いました．
+
+ubuntu16.04でAnaconda3を入れてjupyter notebookでpythonのコーディングをします．
+
+seleniumのインストール:
+
+```
+pip install selenium
+```
+
+ubuntu環境でphantomJS入れるのはこちら:
+
+[https://gist.github.com/julionc/7476620](https://gist.github.com/julionc/7476620)
+
+```python
+#ページスクロール soupを返す
+def get_page_scroll(url):
+    #PhantomJs
+    driver = webdriver.PhantomJS()
+    driver.get(url)
+    #スクロールダウン
+    #スクロールされてるか判断する部分
+    lastHeight = driver.execute_script("return document.body.scrollHeight")
+    soup = []
+    while True:
+        #スクロールダウン
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")  
+        #読み込まれるのを待つ
+        time.sleep(5)
+        newHeight = driver.execute_script("return document.body.scrollHeight")
+        page_html = driver.page_source.encode('utf-8')
+        soup = bs4.BeautifulSoup(page_html,'lxml')
+        #スクロールされてるか判断する部分
+        if newHeight == lastHeight:
+            break
+        lastHeight = newHeight
+    return soup
+```
+
+ユーザのクローリングは[leaderboard](https://psnprofiles.com/leaderboard)からページを指定して行います．
+
+1ページあたり50人(private userがいなければ)得られます．
+
+```python
+#ページをクロール
+def get_userlist(start, pages):
+    #ユーザをリストに
+    id_list = []
+    for i in range(start, start+pages):
+        #leaderboadから取得する
+        list_url = LIST_URL + str(i)
+        try:
+            page_html = urllib.request.urlopen(list_url).read()
+        except Exception as e:
+                estr = str(i) + " is 404"
+                print(estr)
+                continue
+        soup = bs4.BeautifulSoup(page_html,'lxml')
+        table = soup.find('table', id ='leaderboard')
+        user_list = table.find_all('a', class_ = 'title')
+        for href in user_list:
+            id = href.get('href')
+            #既にとったIDならリストに加えない
+            if user_id_list.count(id.strip('/'))==0:
+                #ユーザをリストに加える
+                id_list.append(id)
+    return id_list
+```
+
+全体のコードはgithubにぶち込んでおきます．
+[https://github.com/ntyaan/psn-collaborative-filtering/blob/master/scraping.ipynb](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/scraping.ipynb)
+
+### データ
+今回は2000ユーザ4803ゲームをスクレイピングしました．
+整形したデータはこちら:
+
+[ゲームタイトル](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/data/games.txt)
+
+[ゲームサムネイル](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/data/images.txt)
+
+[トロフィー平均取得率](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/data/average.txt)
+
+[プラットフォーム](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/data/platform.txt) (ps4,ps3,vita)
+
+[プレイ数](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/data/count.txt) (2000人中)
+
+[データ](https://raw.githubusercontent.com/ntyaan/psn-collaborative-filtering/master/data/data.txt) (ユーザ番号，ゲーム番号，トロフィー取得率)
+
+## 強調フィルタリング
+
+自分と似ているユーザが高評価とするアイテムを自分がまだ未評価であったときそのアイテムを推薦するというものです．
+
+### ユーザ間の類似度
+
+自分と他のユーザとの類似度としてピアソン相関係数を用います．
+
+相関係数は-1から1の値をとり，1に近いほど類似性が高いです．
+
+$M$をユーザ$k$と対象のユーザ$k'$が互いに評価しているアイテム数とします．
+
+ここでは対象ユーザ(自分)のやったことのあるゲーム数が$M$です．
+
+$x_{k',\ell}$はユーザ$k'$が評価したアイテム$\ell$の評価値となり，$\bar{x_{k',.}}$はユーザ$k'$と対象ユーザ$k$が互いにが評価したアイテムの平均評価値となります．
+
+```math
+sim(k, k')=\frac{\sum_{\ell=1}^M (x_{k,\ell}-\bar{x_{k,.}})(x_{k',\ell}-\bar{x_{k',.}})}{\sqrt{\sum_{\ell=1}^M(x_{k,\ell}-\bar{x_{k,.}})^2}\sqrt{\sum_{\ell=1}^M(x_{k',\ell}-\bar{x_{k',.}})^2}}\tag{1}
+```
+
+ここで計算を簡単にするために式変形を行います．
+
+まず式(1)の分母を展開:
+
+```math
+\sqrt{\sum_{\ell=1}^M(x_{k,\ell}-\bar{x_{k,.}})^2}=\sqrt{\sum_{\ell=1}^M x_{k,\ell}^2-2\bar{x_{k,.}}\sum_{\ell=1}^Mx_{k,\ell}+ \bar{x_{k,.}}^2\sum_{\ell=1}^M }
+```
+ここで$\bar{x_{k,.}}=\frac{1}{M}\sum_{\ell=1}^M x_{k,\ell}$なので:
+
+```math
+\sqrt{\sum_{\ell=1}^M x_{k,\ell}^2-2\bar{x_{k,.}}\sum_{\ell=1}^Mx_{k,\ell}+ \bar{x_{k,.}}^2\sum_{\ell=1}^M }　= \sqrt{\sum_{\ell=1}^M x_{k,\ell}^2-2\bar{x_{k,.}} \times M \bar{x_{k,.}}+ \bar{x_{k,.}}^2\times M }　\\
+= \sqrt{\sum_{\ell=1}^M x_{k,\ell}^2- M\bar{x_{k,.}}^2 } 
+```
+
+次に(1)の分子を展開:
+
+```math
+\sum_{\ell=1}^M (x_{k,\ell}-\bar{x_{k,.}})(x_{k',\ell}-\bar{x_{k',.}})=\sum_{\ell=1}^M x_{k,\ell}x_{k',\ell}-\sum_{\ell=1}^M x_{k,\ell}\bar{x_{k',.}}-\sum_{\ell=1}^M x_{k',\ell}\bar{x_{k,.}}+\sum_{\ell=1}^M \bar{x_{k,.}}\bar{x_{k',.}}\\
+=\sum_{\ell=1}^M x_{k,\ell}x_{k',\ell}-M\bar{x_{k,.}}\bar{x_{k',.}}-M\bar{x_{k',.}}\bar{x_{k,.}}+M\bar{x_{k,.}}\bar{x_{k',.}}\\
+=\sum_{\ell=1}^M x_{k,\ell}x_{k',\ell}-M\bar{x_{k,.}}\bar{x_{k',.}}
+```
+
+式(1)に代入しなおすと:
+
+```math
+sim(k, k')=\frac{\sum_{\ell=1}^M x_{k,\ell}x_{k',\ell}-M\bar{x_{k,.}}\bar{x_{k',.}}}{\sqrt{\sum_{\ell=1}^M x_{k,\ell}^2- M\bar{x_{k,.}}^2 } \sqrt{\sum_{\ell=1}^M x_{k',\ell}^2- M\bar{x_{k',.}}^2 }}
+```
+
+```math
+sim(k, k')=\frac{\sum_{\ell=1}^M x_{k,\ell}x_{k',\ell}-\frac{1}{M}\sum_{\ell=1}^M x_{k,\ell}\sum_{\ell=1}^M x_{k',\ell}}{\sqrt{\sum_{\ell=1}^M x_{k,\ell}^2- \frac{1}{M} (\sum_{\ell=1}^M x_{k,\ell})^2 } \sqrt{\sum_{\ell=1}^M x_{k',\ell}^2- \frac{1}{M}}(\sum_{\ell=1}^M x_{k',\ell})^2}\tag{2}
+```
+
+これについてはオライリー出版の集合知プログラミングを参考にしました．
+
+サンプルコードが公開されていてリンクはこちら:
+
+[https://resources.oreilly.com/examples/9780596529321/blob/master/PCI_Code%20Folder/chapter2/recommendations.py](https://resources.oreilly.com/examples/9780596529321/blob/master/PCI_Code%20Folder/chapter2/recommendations.py)
+
+41行目，関数sim_pearsonがこの式にあたる．
+
+C++で書いたもの:
+
+```cpp
+void Recom::pearsonsim(){
+  for(int i=0;i<user_number();i++){
+    double psum=0.0,sum1=0.0,sum2=0.0;
+    double sum1sq=0.0,sum2sq=0.0;
+    double hyokasu=0.0;
+    //Eigen3のsparseVectorを使ってる
+    for(SparseVector<double>::InnerIterator it(Activeuser);it;++it){
+      //Eigen3のsparseMatrixを使ってる
+      double user_value=Data.coeff(i,it.index());
+      if(user_value>0 && it.value()>0){
+	hyokasu+=1.0;
+	psum+=user_value*it.value();
+	sum1+=user_value;
+	sum2+=it.value();
+	sum1sq+=pow(user_value,2.0);
+	sum2sq+=pow(it.value(),2.0);
+      }
+    }
+    if(hyokasu>0){
+      //分子の計算
+      double numerator=psum-(sum1*sum2/hyokasu);
+      //分母の計算
+      double denominator=sqrt((sum1sq-pow(sum1,2.0)/hyokasu)
+			      *(sum2sq-pow(sum2,2.0)/hyokasu));
+      //分母が0のときの処理
+      if(denominator==0)
+	Similarities[i]=-1.0;
+      else
+	Similarities[i]=numerator/denominator;
+    }
+    //対象ユーザとアイテムが一つも被らなかったときの処理(hyokasu=0)
+    else
+      Similarities[i]=-1.0;
+  }
+  return;
+}
+```
+
+### 評価値を求める
+対象ユーザ$k$のアイテム$\ell$の予測値:
+
+```math
+\hat{x_{k,\ell}}=\bar{x_{k,.}}+\frac{\sum_{k':sim(k,k'>0)} sim(k,k')(x_{k,\ell}-\bar{x_{k',.}})}{\sum_{k':sim(k,k'>0)} sim(k,k')}
+```
+$\sum_{k':sim(k,k'>0)}$は類似度が0より大きいユーザに対してのみ計算するというものです．
+
+C++で書いたもの:
+
+```cpp
+void Recom::pearsonpred2(){
+  double num=0.0, den=0.0;
+  //Eigen3のSparseVectorを使ってる
+  for(SparseVector<double>::InnerIterator it(Activeuser);it;++it){
+    if(it.value()>0){
+      num+=it.value();
+      den++;
+    }
+  }
+  //対象ユーザの既評価平均値
+  double actuseraverage=num/den;
+  for(int ell=0;ell<item_number();ell++){
+    //分子，分母
+    double numerator=0.0,denominator=0.0;
+    for(int k=0;k<user_number();k++){
+      //Eigen3のsparseMatrixを使ってる
+      double uservalue=Data.coeff(k,ell);
+      if(Similarities[k]>0.0 && uservalue>0.0){
+	numerator+=Similarities[k]
+	  *(uservalue-user_average(k));
+	denominator+=Similarities[k];
+      }
+    }
+    //分母が0のときの処理
+    if(denominator==0)
+      Prediction[ell]+=actuseraverage;
+    else {
+      Prediction[ell]+=actuseraverage
+	+numerator/denominator;
+    }
+  }
+  return;
+}
+
+//ユーザの既評価平均値を返す
+double Recom::user_average(int index){
+  double result=0.0;
+  double hyoka=0.0;
+  for(SparseMatrix<double, RowMajor>
+	::InnerIterator it(Data,index);it;++it){
+    result+=it.value();
+    hyoka++;
+  }
+  return result/hyoka;
+}
+```
+
+###コード
+C++行列ライブラリであるEigen3の疎行列クラスを練習兼ねて使いました．
+
+- [recom.h](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/recom.h)
+- [recom.cxx](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/recom.cxx)
+- [recom_main.cxx](https://github.com/ntyaan/psn-collaborative-filtering/blob/master/recom_main.cxx)
+
+## 今後
+
+- より多くのユーザを得る
+とりあえず2000人としましたが疎行列クラスを使ったおかげか意外と処理が速かったのでユーザ数増やしてもいけそう．
+ただスクレイピングの時間がかかる(2000人でまる1日くらい)．
+
+- 先にユーザのグループ分けをする
+予めクラスタリングでユーザ分けしておいて対象ユーザと同じグループに所属するユーザとの類似度のみ計算して予測したい．
+クラスタリングの初期値によって結果が変わって面白い．
+ただデータが大きいと処理時間がかる．
+
+
+リンク:
+[https://github.com/ntyaan/psn-collaborative-filtering](https://github.com/ntyaan/psn-collaborative-filtering)
+
+
+# 2000ユーザ，4803ゲーム
 
 [mmilkkr](https://psnprofiles.com/mmilkkr)のおすすめゲーム
 

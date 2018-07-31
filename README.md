@@ -20,7 +20,6 @@ PSN非公式サイト([https://psnprofiles.com](https://psnprofiles.com/))から
 予測値は実際自分がこのゲームをプレイしていたと仮定したときのトロフィー取得率と考えます．
 この予測値が高い順に，予測値と平均取得率の差が20以上で，2000人中30人以上にプレイされたゲームを並べました\
 ps3でゲームをしないのでプラットフォームがps3のみのゲームを省いています．
-
 | ranking | 予測値 | 平均取得率 |所持数| (ps4, vita) | 画像 | ゲーム名 |
 |:---|:---|:----|:---|:----|:---|:---|
 |**1**| 88.5148|61|55|(ps4)| ![nba-2k17-the-prelude](https://i.psnprofiles.com/games/bd0437/S1ef2a1.png)|[nba-2k17-the-prelude](https://psnprofiles.com/trophies/5278-nba-2k17-the-prelude)|
